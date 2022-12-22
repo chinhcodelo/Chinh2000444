@@ -1,234 +1,161 @@
-#include<stdio.h>
-#include<math.h>
-int getDigit(long long n); // lay chu so dau tien cua n
-int totalDigit(long long n); // tinh tong cac chu so cua n
-int maxDigit(long long n); // tim max cua cac chu so n
-int countDigit(long long n); // dem cac chu so cua n
-int check(int n); // kiem tra n co phai la chu so khac nhau 1 doi
-int count(int a[], int n); // dem so lan xuat hien
-void pushArray(int a[], int &n, int x); // day cac phan tu vao mang 1 chieu
-
-void cau1();
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
 
 
-void cauA(int h);
-void cauB(int h);
-void cauC(int h);
-void cau2();
-float cau3(int n);
-float cau4(int n);
-float cau5(int n);
-float cau6(int n);
-float cau7(int n);
-float cau8(int n);
-int cau9(int x, int n);
-unsigned long long cau10(int x, int n);
-float cau11(int x, int n);
+struct SinhVien {
+	char ten[30];
+	char gt[100];
+	int age;
+	float dtb;
+	int songaynghi;
+};
+
+typedef SinhVien SV;
+
+void nhap(SV &sv);
+void nhapN(SV a[], int n);
+void xuat(SV sv);
+void xuatN(SV a[], int n);
+void sapxep(SV a[], int n);
+void xeploai(SV a);
+void xeploaiN(SV a[], int n);
+void xuatFile(SV a[], int n, char fileName[]);
+
 int main() {
-//	cau1();
-//	printf("%lld", cau10(2, 5));
-	cau2();
-	return 0;
-}
+	int key;
+	char fileName[] = "DSSV.txt";
+	int n;
+	bool daNhap = false;
+	do {
+		printf("\nNhap so luong SV: ");
+		scanf("%d", &n);
+	} while(n <= 0);
+	SV a[n];
+	while(true) {
+		system("cls");
+		printf("******************************************\n");
+		printf("**    CHUONG TRINH QUAN LY SINH VIEN    **\n");
+		printf("**      1. Nhap du lieu                 **\n");
+		printf("**      2. In danh sach sinh vien       **\n");
+		printf("**      3. In ra danh sach khen thuong  **\n");
+		printf("**      4. In ra danh sach hoc sinh ngu **\n");
+		printf("**      5. Xuat DS sinh vien            **\n");
+		printf("**      0. Thoat                        **\n");
+		printf("******************************************\n");
+		printf("**       Nhap lua chon cua ban          **\n");
+		scanf("%d",&key);
+		switch(key) {
+			case 1:
+				printf("\nBan da chon nhap DS sinh vien!");
+				nhapN(a, n);
+				printf("\nBan da nhap thanh cong!");
+				daNhap = true;
+				printf("\nBam phim bat ky de tiep tuc!");
+				getch();
+				break;
+			case 2:
+				if(daNhap) {
+					printf("\nBan da chon xuat DS sinh vien!");
+					xuatN(a, n);
+				} else {
+					printf("\nNhap DS SV truoc!!!!");
+				}
+				printf("\nBam phim bat ky de tiep tuc!");
+				getch();
+				break;
+			case 3:
 
+				break;
+			case 4:
 
-int getDigit(long long n) {
-	int result;
-	while(n != 0) { // trong khi n khac 0
-		result = n % 10; // lay chu cuoi cung cua n
-		n /= 10; // bot di 1 so cua n
-	}
-	return result;
-}
+				getch();
+				break;
+			case 5:
 
-int totalDigit(long long n) {
-	int sum = 0;
-	while(n != 0) {
-		sum += n % 10; 
-		n /= 10; // n = n / 10;
-	}
-	return sum;
-}
-
-int maxDigit(long long n) {
-	int max = n % 10;
-	while(n != 0) {
-		if(max < n % 10) max = n % 10;
-		n /= 10;
-	}
-	return max;
-}
-
-void pushArray(int a[], int &n, int x) {
-	int i = 0;
-	while(x != 0) {
-		a[i] = x % 10;
-		i++;
-		x /= 10;
-	}
-}
-
-int count(int n, int x) {
-	int count = 0;
-	int m = countDigit(n);
-	int a[m];
-	pushArray(a, m, n );
-	for(int i = 0; i < m; i++) {
-		if(x == a[i]) {
-			count++;
+				break;
+			case 0:
+				printf("\nBan da chon thoat chuong trinh!");
+				getch();
+				return 0;
+			default:
+				printf("\nKhong co chuc nang nay!");
+				printf("\nBam phim bat ky de tiep tuc!");
+				getch();
+				break;
 		}
 	}
-	return count;
 }
 
-int check(int n) {
-	int m = countDigit(n);
-	int a[m];
-	pushArray(a, m, n );
-	for(int i = 0; i < m - 1; i++) {
-		for(int j = i + 1; j < m; j++) {
-			if(a[j] == a[i]) {
-				return a[i];
+
+void nhap(SV &sv) {
+	printf("\nNhap ten: ");
+	fflush(stdin);
+	gets(sv.ten);
+	printf("\nNhap gioi tinh: ");
+	gets(sv.gt);
+	printf("\nNhap tuoi: ");
+	scanf("%d", &sv.age);
+	printf("\nNhap diem TB: ");
+	scanf("%f", &sv.dtb);
+	printf("\nNhap so ngay nghi: ");
+	scanf("%f", &sv.songaynghi);
+}
+
+void nhapN(SV a[], int n) {
+	printf("\n____________________________________\n");
+	for(int i = 0; i< n; ++i) {
+		printf("\nNhap SV thu %d:", i+1);
+		nhap(a[i]);
+	}
+	printf("\n____________________________________\n");
+}
+
+void xuat(SV sv) {
+	printf("\nHo ten SV: %s", sv.ten);
+	printf("\nGioi tinh: %s", sv.gt);
+	printf("\nTuoi SV  : %d", sv.age);
+	printf("\nDiem tb: %f", sv.dtb);
+	printf("\nso ngay nghi: %.2d", sv.songaynghi);
+}
+
+void xuatN(SV a[], int n) {
+	printf("\n____________________________________\n");
+	for(int i = 0; i < n; ++i) {
+		printf("\nThong tin SV thu %d:", i+1);
+		xuat(a[i]);
+	}
+	printf("\n____________________________________\n");
+}
+
+void sapxep(SV a[], int n) {
+	//Sap xep theo DTB tang dan
+	SV tmp;
+	for(int i = 0; i < n; ++i) {
+		for(int j = i+1; j < n; ++j) {
+			if(a[i].dtb > a[j].dtb) {
+				tmp = a[i];
+				a[i] = a[j];
+				a[j] = tmp;
 			}
 		}
 	}
-	return 0;
 }
 
-int countDigit(long long n) {
-	int count = 0;
-	while(n != 0) {
-		n /= 10;
-		count++;
+void xeploai(SV sv) {
+	if(sv.dtb >= 8) printf("Gioi");
+	else if(sv.dtb >= 6.5) printf("Kha");
+	else if(sv.dtb >= 4) printf("Trung binh");
+	else printf("Yeu");
+}
+
+void xeploaiN(SV a[], int n) {
+	printf("\n____________________________________\n");
+	for(int i = 0; i < n; ++i) {
+		printf("\nXep loai cua SV thu %d la: ", i+1);
+		xeploai(a[i]);
 	}
-	
-	return count;
-}
-void cau1() {
-	unsigned long long n;
-	printf("Nhap vao n = "); scanf("%lld", &n);
-	printf("Chu dau tien cua n la: %d", getDigit(n));
-	printf("\nTong cac chu so cua n la: %d", totalDigit(n));
-	printf("\nSo luong chu trong n la: %d", countDigit(n));
-	printf("\nMax = %d", maxDigit(n));
-	check(n) ? printf("\n%d la so doi mot vi co %d so %d giong nhau", n, count(n, check(n)), check(n)) : printf("\n%d khong phai la so doi mot", n);
+	printf("\n____________________________________\n");
 }
 
 
-float cau3(int n) {
-	float sum_1 = 0, sum_2 = 0;
-	for(int i = 1; i <= n; i++) {
-		if(i % 2 == 0) {
-			sum_1 += i;
-		} else {
-			sum_2 += i;
-		}
-	}
-	return sum_2 - sum_1;
-}
-
-float cau4(int n) {
-	float sum = 0;
-	for(int i = 1; i <= n; i++) {
-		sum += 1.0 / i;
-	}
-	return sum;
-}
-
-float cau5(int n) {
-	float sum = 0;
-	for(int i = 0; i <= n; i++) {
-		sum += 1.0 / (2 * i + 1);
-	}
-	return sum;
-}
-
-
-float cau7(int n) {
-	float sum = 0;
-	for(int i = 1; i <= n; i++) {
-		sum += 1.0 / i + 1;
-	}
-	return sum;	
-}
-
-float cau6(int n) {
-	float sum = 0;
-	for(int i = 1; i <= n; i++) {
-		sum += 1.0 / i * (i + 1);
-	}
-	return sum;
-}
-
-float cau8(int n) {
-	float sum = 0;
-	for(int i = 0; i <= n; i++) {
-		sum += (i * 2 + 1) / (i * 2 + 2); 
-	}
-	return sum;
-}
-int cau9(int x, int n) {
-	return pow(x, n);
-}
-unsigned long long cau10(int x, int n) {
-	unsigned long long sum = 0;
-	for(int i = 1; i <= n; i++) {
-		sum += pow(x, i);
-	}
-	return sum;	
-}
-
-float cau11(int x, int n) {
-	int sum_1 = 0;
-	int sum_2 = 1;
-	for(int i = 1; i <= n; i++) {
-		if(i % 2 == 0) {
-			sum_1 += pow(x, i);
-		} else {
-			sum_2 += pow(x, i);
-		}
-	}
-	return sum_2 - sum_1;
-}
-
-void cau2() {
-	int h;
-	printf("Nhap vao h = ");
-	scanf("%d", &h);
-	printf("\t\t\tCau A\n");
-	cauA(h);
-	printf("\t\t\tCau B\n");
-	cauB(h);
-	printf("\t\t\tCau C\n");
-	cauC(h);
-}
-
-void cauA(int n) {
-	for(int i = 1; i <= n; i++) {
-		for(int j = 1; j <= i; j++) {
-			printf("*");
-		}
-		printf("\n");
-	}
-}
-void cauB(int n) {
-	for(int i = n; i >= 1; i--) {
-		for(int j = 1; j <= i; j++) {
-			printf("*");
-		}
-		printf("\n");
-	}	
-}
-void cauC(int n) {
-	for(int i = 1; i <= n; i++) {
-		for(int j = 1; j <= n - i; j++) {
-			printf(" ");
-		}
-		
-		
-		for(int j = 1; j <= 2 * i - 1; j++) {
-			printf("* ");
-		}
-		printf("\n");
-	}
-}
